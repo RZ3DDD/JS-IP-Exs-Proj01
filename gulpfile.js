@@ -82,7 +82,7 @@ function scripts() {
 
 // Private task сжатия изображений
 function imgCompress() {
-    return src('./src/img/**')
+    return src(['./src/img/**', '!src/img/README.md'])
         .pipe(imagemin({
             progressive: true
         }))
@@ -107,11 +107,9 @@ function overwatch() {
     watch('./src/sass/**/*.sass', styles); // Следить за CSS файлами
     watch('./src/js/**/*.js', scripts); // Следить за JS файлами
     watch('./*.html').on('change', browserSync.reload); // Следить за изменением HTML файлов
-}
-
-// Public tasks
+} // Public tasks
 // exports.styles = styles;
-// exports.scripts = scripts;
+exports.scripts = scripts;
 // exports.clean = clean;
 // exports.overwatch = overwatch;
 build = series(clean, parallel(styles, scripts, imgCompress));
