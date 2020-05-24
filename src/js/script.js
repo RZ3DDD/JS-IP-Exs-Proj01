@@ -20,9 +20,6 @@
 
 let numberOfFilms = prompt("Сколько фильмов Вы уже посмотрели?", "0");
 console.log(numberOfFilms);
-numberOfFilms = 11;
-console.log(numberOfFilms);
-
 
 let personalMovieDB = {
     count: numberOfFilms,
@@ -31,5 +28,13 @@ let personalMovieDB = {
     genres: [],
     privet: false,
 };
+
+let film1 = prompt('Один из последних просмотренных фильмов?', '');
+let score1 = prompt('На сколько оцените его?', '');
+let film2 = prompt('Один из последних просмотренных фильмов?', '');
+let score2 = prompt('На сколько оцените его?', '');
+
+personalMovieDB.movies[film1] = score1;
+personalMovieDB.movies[film2] = score2;
 
 console.log(personalMovieDB);
