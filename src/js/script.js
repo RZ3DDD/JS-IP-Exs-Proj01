@@ -30,13 +30,21 @@ if (numberOfFilms === 0 || isNaN(numberOfFilms) || numberOfFilms === undefined) 
         privet: false,
     };
 
-    let film1 = prompt('Один из последних просмотренных фильмов?', '');
-    let score1 = prompt('На сколько оцените его?', '');
-    let film2 = prompt('Один из последних просмотренных фильмов?', '');
-    let score2 = prompt('На сколько оцените его?', '');
-
-    personalMovieDB.movies[film1] = score1;
-    personalMovieDB.movies[film2] = score2;
+    let numOfFilm = personalMovieDB.count,
+        film = false,
+        score = false;
+    while (numOfFilm) {
+        do {
+            film = prompt('Один из последних просмотренных фильмов?', '');
+            if (typeof film === "string") film = film.trim();
+        } while (!film || film.length > 50);
+        do {
+            score = prompt('На сколько оцените его?', '');
+            if (typeof score === "string") score = score.trim();
+        } while (!score);
+        personalMovieDB.movies[film] = score;
+        numOfFilm--;
+    }
 
     console.log(personalMovieDB);
 }
