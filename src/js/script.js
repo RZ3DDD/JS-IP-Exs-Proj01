@@ -2,27 +2,30 @@
 
 /* Задание на урок:
 
-1) Автоматизировать вопросы пользователю про фильмы при помощи цикла
+1) Первую часть задания повторить по уроку
 
-2) Сделать так, чтобы пользователь не мог оставить ответ в виде пустой строки,
-отменить ответ или ввести название фильма длинее, чем 50 символов. Если это происходит - 
-возвращаем пользователя к вопросам опять
+2) Создать функцию showMyDB, которая будет проверять свойство privat. Если стоит в позиции
+false - выводит в консоль главный объект программы
 
-3) При помощи условий проверить  personalMovieDB.count, и если он меньше 10 - вывести сообщение
-"Просмотрено довольно мало фильмов", если от 10 до 30 - "Вы классический зритель", а если больше - 
-"Вы киноман". А если не подошло ни к одному варианту - "Произошла ошибка"
+3) Создать функцию writeYourGenres в которой пользователь будет 3 раза отвечать на вопрос 
+"Ваш любимый жанр под номером ${номер по порядку}". Каждый ответ записывается в массив данных
+genres
 
-4) Потренироваться и переписать цикл еще двумя способами*/
+P.S. Функции вызывать не обязательно*/
 
 // Код возьмите из предыдущего домашнего задания
+
+const maxFilmNameLength = 50,
+    minFilmsClassicViewer = 3,
+    maxFilmsClassicViewer = 7;
 
 let numberOfFilms = +prompt("Сколько фильмов Вы уже посмотрели?", "0");
 console.log(numberOfFilms);
 if (numberOfFilms === 0 || isNaN(numberOfFilms) || numberOfFilms === undefined) {
     alert(`Ваш ответ: ${numberOfFilms} \n Вы не можете участвовать в оценке фильмов!`);
 } else {
-    if (numberOfFilms < 10) alert("Просмотрено довольно мало фильмов.");
-    else if (numberOfFilms <= 30) alert("Вы классический зритель.");
+    if (numberOfFilms < minFilmsClassicViewer) alert("Просмотрено довольно мало фильмов.");
+    else if (numberOfFilms <= maxFilmsClassicViewer) alert("Вы классический зритель.");
     else alert("Вы киноман!");
 
     let personalMovieDB = {
@@ -30,24 +33,41 @@ if (numberOfFilms === 0 || isNaN(numberOfFilms) || numberOfFilms === undefined) 
         movies: {},
         actors: {},
         genres: [],
-        privet: false,
+        privat: false,
     };
 
     let nextFilm = personalMovieDB.count,
-        film = false,
-        score = false;
+        film = "",
+        score = "";
     while (nextFilm) {
-        do {
-            film = prompt('Один из последних просмотренных фильмов?', '');
-            if (typeof film === "string") film = film.trim();
-        } while (!film || film.length > 50);
-        do {
-            score = prompt('На сколько оцените его?', '');
-            if (typeof score === "string") score = score.trim();
-        } while (!score);
+        film = getNonEmptyAnswer('Название следующего из последних просмотренных фильмов?', maxFilmNameLength);
+        score = getNonEmptyAnswer('На сколько оцените его?', 3);
         personalMovieDB.movies[film] = score;
         nextFilm--;
     }
 
-    console.log(personalMovieDB);
+    writeYourGenres(personalMovieDB.genres);
+
+    showMyDB(personalMovieDB);
+}
+
+function showMyDB(objMyDB) {
+    if (!objMyDB.privat) console.log(objMyDB);
+    return;
+}
+
+function writeYourGenres(genres) {
+    for (let i = 0; i < 3; i++) {
+        genres[i] = getNonEmptyAnswer(`Ваш любимый жанр на ${i+1} месте?`, 24);
+    }
+    return;
+}
+
+function getNonEmptyAnswer(question, maxAnswerLength) {
+    let answer = "";
+    do {
+        answer = prompt(question, '');
+        if (typeof answer === "string") answer = answer.trim();
+    } while (!answer || answer.length > maxAnswerLength);
+    return answer;
 }
