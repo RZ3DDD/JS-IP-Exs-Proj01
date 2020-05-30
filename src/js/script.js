@@ -20,7 +20,6 @@ const maxFilmNameLength = 50,
     maxFilmsClassicViewer = 7;
 
 let numberOfFilms = +prompt("Сколько фильмов Вы уже посмотрели?", "0");
-console.log(numberOfFilms);
 if (numberOfFilms === 0 || isNaN(numberOfFilms) || numberOfFilms === undefined) {
     alert(`Ваш ответ: ${numberOfFilms} \n Вы не можете участвовать в оценке фильмов!`);
 } else {
@@ -67,7 +66,26 @@ function getNonEmptyAnswer(question, maxAnswerLength) {
     let answer = "";
     do {
         answer = prompt(question, '');
-        if (typeof answer === "string") answer = answer.trim();
+        if (typeof answer === "string") answer = normalizationOfSpaces(answer);
     } while (!answer || answer.length > maxAnswerLength);
     return answer;
+}
+
+function normalizationOfSpaces(str) {
+    let sourceStr = str.trim(),
+        destStr = "",
+        nextChar = "",
+        simpleSpaceSaved = false;
+
+    if (sourceStr.length) {
+        for (let i = 0; i < sourceStr.length; i++) {
+            nextChar = sourceStr[i];
+            if (nextChar === " ") {
+                if (simpleSpaceSaved) continue;
+                else simpleSpaceSaved = true;
+            } else if (simpleSpaceSaved) simpleSpaceSaved = false;
+            destStr = destStr + nextChar;
+        }
+        return destStr;
+    } else return sourceStr;
 }
