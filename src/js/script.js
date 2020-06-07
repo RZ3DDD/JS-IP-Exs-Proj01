@@ -11,80 +11,81 @@
 "Любимый жанр #(номер по порядку, начиная с 1) - это (название из массива)"*/
 // Код возьмите из предыдущего домашнего задания
 
-let personalMovieDB = startOfMovieRating();
+const personalMovieDB = {
+    count: 0,
+    movies: {},
+    actors: {},
+    genres: [],
+    privat: false,
 
-if (typeof personalMovieDB == "object") {
-    personalMovieDB.writeMovieScores();
-    personalMovieDB.writeGenres();
+    toggleVisibleMyDB() {
+        this.privat = !this.privat;
+        return;
+    },
 
-    personalMovieDB.genres.forEach((item, index) => {
-        console.log(`Любимый жанр №${index+1} это - ${item}`);
-    });
+    showMovieDB() {
+        if (!this.privat) console.log(this);
+        return;
+    },
 
-    personalMovieDB.showMovieDB();
-} else alert("Error!");
+    start() {
+        'use strict';
+        let numberOfFilms = getNumberAnswer("Сколько фильмов Вы уже посмотрели?", 0);
+        this.count = numberOfFilms;
+        return;
+    },
 
+    detectPersonalLevel() {
+        'use strict';
+        const
+            minFilmsClassicViewer = 3,
+            maxFilmsClassicViewer = 7;
 
-function startOfMovieRating() {
-    'use strict';
-    const
-        minFilmsClassicViewer = 3,
-        maxFilmsClassicViewer = 7;
-
-    let personalMovieDB = {
-        count: 0,
-        movies: {},
-        actors: {},
-        genres: [],
-        privat: false,
-
-        showMovieDB() {
-            if (!this.privat) console.log(this);
-            return;
-        },
-
-        toggleVisibleMyDB() {
-            this.privat = !this.privat;
-        },
-
-        writeMovieScores() {
-            const maxFilmNameLength = 50;
-            let nextFilm = this.count,
-                film = "",
-                score = "";
-
-            while (nextFilm) {
-                film = getNonEmptyAnswer('Название следующего из последних просмотренных фильмов?', maxFilmNameLength);
-                score = getNumberAnswer('На сколько оцените его?', 3);
-                this.movies[film] = score;
-                nextFilm--;
-            }
-            return;
-        },
-
-        writeGenres() {
-            for (let i = 0; i < 3; i++) {
-                this.genres[i] = getNonEmptyAnswer(`Ваш любимый жанр на ${i+1} месте?`, 24);
-            }
-            return;
-        }
-
-    };
-
-    let numberOfFilms = getNumberAnswer("Сколько фильмов Вы уже посмотрели?", 0);
-    if (numberOfFilms === 0) {
-        alert(`Ваш ответ: ${numberOfFilms} \n Вы не можете участвовать в оценке фильмов!`);
-        return false;
-    } else {
-        if (numberOfFilms < minFilmsClassicViewer) alert("Просмотрено довольно мало фильмов.");
-        else if (numberOfFilms <= maxFilmsClassicViewer) alert("Вы классический зритель.");
+        if (this.count < minFilmsClassicViewer) alert("Просмотрено довольно мало фильмов.");
+        else if (this.count <= maxFilmsClassicViewer) alert("Вы классический зритель.");
         else alert("Вы киноман!");
-        personalMovieDB.count = numberOfFilms;
-        return personalMovieDB;
+        return;
+    },
+
+    writeMovieScores() {
+        const maxFilmNameLength = 50;
+        let nextFilm = this.count,
+            film = "",
+            score = "";
+
+        while (nextFilm) {
+            film = getNonEmptyAnswer('Название следующего из последних просмотренных фильмов?', maxFilmNameLength);
+            score = getNumberAnswer('На сколько оцените его?', 3);
+            this.movies[film] = score;
+            nextFilm--;
+        }
+        return;
+    },
+
+    writeGenres() {
+        for (let i = 0; i < 3; i++) {
+            this.genres[i] = getNonEmptyAnswer(`Ваш любимый жанр на ${i+1} месте?`, 24);
+        }
+        return;
+    },
+
+    logGenresRating() {
+        'use strict';
+        this.genres.forEach((item, index) => {
+            console.log(`Любимый жанр №${index+1} это - ${item}`);
+        });
+        return;
     }
-}
+
+};
 
 
+personalMovieDB.start();
+// personalMovieDB.writeMovieScores();
+// personalMovieDB.writeGenres();
+
+
+// personalMovieDB.showMovieDB();
 
 function getNonEmptyAnswer(question, maxAnswerLength) {
     'use strict';
