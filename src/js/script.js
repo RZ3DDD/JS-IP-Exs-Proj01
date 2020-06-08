@@ -80,7 +80,7 @@ const personalMovieDB = {
 };
 
 
-personalMovieDB.start();
+// personalMovieDB.start();
 // personalMovieDB.writeMovieScores();
 // personalMovieDB.writeGenres();
 
